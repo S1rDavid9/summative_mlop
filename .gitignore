@@ -1,0 +1,31 @@
+# Dataset — do not commit raw images
+data/
+
+# Trained model weights
+models/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+notebook/*.png
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Locust stats
+locust_report*.html
+locust_report*.csv
