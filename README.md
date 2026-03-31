@@ -1,3 +1,9 @@
+---
+title: Student Engagement API
+sdk: docker
+pinned: false
+---
+
 # Student Engagement Detection via Facial Emotion Recognition
 
 An end-to-end Machine Learning pipeline that detects student engagement levels
