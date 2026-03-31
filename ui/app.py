@@ -46,7 +46,6 @@ ENGAGEMENT_MAP = {
 
 st.set_page_config(
     page_title='Student Engagement Detection',
-    page_icon='🎓',
     layout='wide'
 )
 
@@ -57,7 +56,7 @@ def api_get(endpoint: str) -> dict | None:
         r = requests.get(f'{API_BASE}{endpoint}', timeout=5)
         r.raise_for_status()
         return r.json()
-    except Exception as exc:
+    except Exception:
         return None
 
 
@@ -90,7 +89,7 @@ def load_class_distribution() -> dict:
 
 
 # ── Sidebar navigation ────────────────────────────────────────────────────────
-st.sidebar.title('🎓 Student Engagement')
+st.sidebar.title('Student Engagement Detection')
 page = st.sidebar.radio(
     'Navigate',
     ['Monitor', 'Visualisations', 'Actions'],
@@ -103,7 +102,7 @@ st.sidebar.caption(f'API: `{API_BASE}`')
 # PAGE 1 — Monitor
 # ═════════════════════════════════════════════════════════════════════════════
 if page == 'Monitor':
-    st.title('📊 System Monitor')
+    st.title('System Monitor')
     st.markdown('Live overview of the emotion-recognition model and API.')
 
     health = api_get('/health')
@@ -112,15 +111,14 @@ if page == 'Monitor':
     col1, col2, col3, col4 = st.columns(4)
 
     if health:
-        status_color = '🟢' if health.get('model_loaded') else '🔴'
-        col1.metric('API Status', f'{status_color} Online')
-        col2.metric('Model Loaded', '✅ Yes' if health.get('model_loaded') else '❌ No')
+        col1.metric('API Status', 'Online')
+        col2.metric('Model Loaded', 'Yes' if health.get('model_loaded') else 'No')
         col3.metric('Uptime', format_uptime(health.get('uptime_seconds', 0)))
         last_trained = health.get('last_trained') or 'Never'
         col4.metric('Last Trained', last_trained[:19].replace('T', ' ') if last_trained != 'Never' else 'Never')
     else:
-        st.error('❌ Cannot reach the API. Make sure FastAPI is running at ' + API_BASE)
-        col1.metric('API Status', '🔴 Offline')
+        st.error('Cannot reach the API. Make sure FastAPI is running at ' + API_BASE)
+        col1.metric('API Status', 'Offline')
         col2.metric('Model Loaded', '—')
         col3.metric('Uptime', '—')
         col4.metric('Last Trained', '—')
@@ -142,8 +140,7 @@ if page == 'Monitor':
         if health:
             rs = health.get('retrain_status', 'idle')
             rm = health.get('retrain_message', '')
-            badge = {'idle': '⚪', 'running': '🔄', 'done': '✅', 'error': '❌'}.get(rs, '⚪')
-            st.write(f'**Status:** {badge} {rs.upper()}')
+            st.write(f'**Status:** {rs.upper()}')
             if rm:
                 st.caption(rm)
         else:
@@ -165,7 +162,7 @@ if page == 'Monitor':
 # PAGE 2 — Visualisations
 # ═════════════════════════════════════════════════════════════════════════════
 elif page == 'Visualisations':
-    st.title('📈 Data Visualisations')
+    st.title('Data Visualisations')
 
     # ── 2a. Class distribution ────────────────────────────────────────────
     st.subheader('Class Distribution (Training Set)')
@@ -273,7 +270,7 @@ elif page == 'Visualisations':
 # PAGE 3 — Actions
 # ═════════════════════════════════════════════════════════════════════════════
 elif page == 'Actions':
-    st.title('⚡ Actions')
+    st.title('Actions')
 
     # ── 3a. Single image prediction ───────────────────────────────────────
     st.subheader('1. Predict Emotion from Image')
@@ -380,7 +377,7 @@ elif page == 'Actions':
     epochs = col_e.number_input('Max epochs', min_value=1, max_value=200, value=30)
     batch  = col_b.selectbox('Batch size', [16, 32, 64, 128], index=2)
 
-    if st.button('🚀 Start Retraining', type='primary'):
+    if st.button('Start Retraining', type='primary'):
         with st.spinner('Sending retraining request…'):
             resp = api_post(f'/retrain?epochs={epochs}&batch_size={batch}')
         if resp and 'error' not in resp:
@@ -394,11 +391,10 @@ elif page == 'Actions':
     if health:
         rs = health.get('retrain_status', 'idle')
         rm = health.get('retrain_message', '')
-        badge = {'idle': '⚪', 'running': '🔄', 'done': '✅', 'error': '❌'}.get(rs, '⚪')
-        st.info(f'{badge} **Retrain status:** {rs.upper()} — {rm}')
+        st.info(f'**Retrain status:** {rs.upper()} — {rm}')
 
         if rs == 'running':
-            if st.button('🔄 Refresh status'):
+            if st.button('Refresh status'):
                 st.rerun()
     else:
         st.warning('Cannot reach API.')

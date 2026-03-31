@@ -16,14 +16,15 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
-COPY src/  ./src/
-COPY api/  ./api/
-COPY ui/   ./ui/
+# Copy source code and model
+COPY src/    ./src/
+COPY api/    ./api/
+COPY ui/     ./ui/
+COPY models/ ./models/
 
-# Create runtime directories (volumes will overlay these)
-RUN mkdir -p data/train data/test models
+# Create runtime directories (volumes will overlay these in local Docker)
+RUN mkdir -p data/train data/test
 
-# Default: run FastAPI
-EXPOSE 8000
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# HF Spaces uses port 7860; local Docker uses 8000
+EXPOSE 7860
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

@@ -62,6 +62,23 @@ def _retrain_worker(train_dir: str,
         import tensorflow as tf
         from tensorflow import keras
 
+        class _StatusCallback(keras.callbacks.Callback):
+            """Writes epoch progress to the status file during training."""
+            def __init__(self, write_fn):
+                super().__init__()
+                self._write = write_fn
+
+            def on_epoch_end(self, epoch, logs=None):
+                logs = logs or {}
+                msg = (
+                    f"Epoch {epoch + 1} — "
+                    f"loss: {logs.get('loss', 0):.4f}  "
+                    f"acc: {logs.get('accuracy', 0):.4f}  "
+                    f"val_loss: {logs.get('val_loss', 0):.4f}  "
+                    f"val_acc: {logs.get('val_accuracy', 0):.4f}"
+                )
+                self._write('running', msg)
+
         # Add src/ to path so we can import our modules
         import sys
         src_dir = str(Path(__file__).resolve().parent.parent / 'src')
@@ -146,24 +163,6 @@ def _retrain_worker(train_dir: str,
         tb = traceback.format_exc()
         print(f'[retrain] ERROR:\n{tb}')
         _write_status('error', f'Retraining failed: {exc}')
-
-
-class _StatusCallback(keras.callbacks.Callback):
-    """Writes epoch progress to the status file during training."""
-    def __init__(self, write_fn):
-        super().__init__()
-        self._write = write_fn
-
-    def on_epoch_end(self, epoch, logs=None):
-        logs = logs or {}
-        msg = (
-            f"Epoch {epoch + 1} — "
-            f"loss: {logs.get('loss', 0):.4f}  "
-            f"acc: {logs.get('accuracy', 0):.4f}  "
-            f"val_loss: {logs.get('val_loss', 0):.4f}  "
-            f"val_acc: {logs.get('val_accuracy', 0):.4f}"
-        )
-        self._write('running', msg)
 
 
 # ── Public API ───────────────────────────────────────────────────────────────

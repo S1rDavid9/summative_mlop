@@ -1,8 +1,9 @@
 # Dataset — do not commit raw images
 data/
 
-# Trained model weights
-models/
+# Trained model weights (keep .h5 and class_indices.json, exclude tmp files)
+models/*.tmp.h5
+models/retrain_status.json
 
 # Python
 __pycache__/
