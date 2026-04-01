@@ -27,7 +27,7 @@ import seaborn as sns
 from PIL import Image
 
 # ── Config ───────────────────────────────────────────────────────────────────
-API_BASE    = os.getenv('API_BASE_URL', 'http://localhost:8000')
+API_BASE    = os.getenv('API_BASE_URL', 'https://akach1-student-engagement-api.hf.space')
 BASE_DIR    = Path(__file__).resolve().parent.parent
 TRAIN_DIR   = BASE_DIR / 'data' / 'train'
 POLL_INTERVAL = 3   # seconds between retraining status polls
