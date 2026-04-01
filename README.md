@@ -205,6 +205,25 @@ Optimizer: Adam (lr=1e-3) · Loss: Categorical Cross-Entropy
 
 ---
 
+## Visualisations
+
+### Sample Images per Emotion Class
+![Sample Images](notebook/sample_images.png)
+
+### Class Distribution (Training Set)
+![Class Distribution](notebook/class_distribution.png)
+
+### Training Curves
+![Training Curves](notebook/training_curves.png)
+
+### Confusion Matrix
+![Confusion Matrix](notebook/confusion_matrix.png)
+
+### ROC Curves
+![ROC Curves](notebook/roc_curves.png)
+
+---
+
 ## Engagement Mapping
 
 | Emotion | Engagement Level |
