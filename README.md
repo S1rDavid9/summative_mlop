@@ -180,12 +180,11 @@ locust -f tests/locustfile.py \
 
 | Users | Req/s | Median (ms) | 95th % (ms) | Failures |
 |-------|-------|-------------|-------------|----------|
-| 10    |       |             |             |          |
-| 50    |       |             |             |          |
-| 100   |       |             |             |          |
-| 500   |       |             |             |          |
+| 10    | 4.17  | 310         | 1100        | 0        |
+| 50    | 15.81 | 630         | 1400        | 0        |
+| 100   | 17.53 | 2500        | 5800        | 0        |
 
-*Fill in this table after running the load tests.*
+*Tested against the live HF Spaces API. The API handles up to 50 concurrent users with sub-1.5s 95th-percentile latency and 0 failures. At 100 users, throughput plateaus (~17.5 req/s) and latency rises significantly due to the free-tier HF Spaces CPU constraint.*
 
 ---
 
