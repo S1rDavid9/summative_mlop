@@ -10,7 +10,9 @@ An end-to-end Machine Learning pipeline that detects student engagement levels
 from facial expressions using a CNN trained on the **FER+** dataset.
 
 > **YouTube Demo:** [Add your YouTube link here]
-> **Live URL:** [Add your deployed URL here]
+> **API (HF Spaces):** https://akach1-student-engagement-api.hf.space
+> **UI (HF Spaces):** https://akach1-student-engagement-ui.hf.space
+> **API Docs:** https://akach1-student-engagement-api.hf.space/docs
 
 ---
 

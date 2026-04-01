@@ -196,7 +196,9 @@ elif page == 'Visualisations':
 
     # ── 2b. Sample images per class ──────────────────────────────────────
     st.subheader('Sample Images per Emotion Class')
-    if TRAIN_DIR.exists():
+    SAMPLE_DIR = Path(__file__).resolve().parent / 'sample_images'
+
+    if TRAIN_DIR.exists() and any(TRAIN_DIR.iterdir()):
         classes = sorted([d for d in TRAIN_DIR.iterdir() if d.is_dir()])
         cols = st.columns(min(len(classes), 4))
         for i, cls_dir in enumerate(classes):
@@ -206,8 +208,15 @@ elif page == 'Visualisations':
                 img = Image.open(imgs[0]).convert('L').resize((96, 96))
                 with cols[i % 4]:
                     st.image(img, caption=cls_dir.name, use_column_width=True)
+    elif SAMPLE_DIR.exists():
+        samples = sorted(SAMPLE_DIR.glob('*.jpg'))
+        cols = st.columns(min(len(samples), 4))
+        for i, img_path in enumerate(samples):
+            img = Image.open(img_path).convert('L').resize((96, 96))
+            with cols[i % 4]:
+                st.image(img, caption=img_path.stem, use_column_width=True)
     else:
-        st.info('No images found in data/train/.')
+        st.info('No images found.')
 
     st.markdown('---')
 
