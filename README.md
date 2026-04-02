@@ -20,8 +20,8 @@ from facial expressions using a CNN trained on the **FER+** dataset.
 
 ## Project Description
 
-This system classifies facial images into 8 emotion categories
-(Angry, Contempt, Disgust, Fear, Happy, Neutral, Sad, Surprise)
+This system classifies facial images into 7 emotion categories
+(Angry, Disgust, Fear, Happy, Neutral, Sad, Surprise)
 and maps them to engagement levels — giving educators a real-time
 signal of how students are responding during a lesson.
 
@@ -65,7 +65,7 @@ summative_mlop/
 ## Setup Instructions
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.11
 - Docker + Docker Compose (optional but recommended)
 - FER+ dataset placed in `data/` (see below)
 
@@ -89,14 +89,13 @@ Download the FER+ dataset and arrange it as follows:
 ```
 data/
 ├── train/
-│   ├── Angry/        ← .png images
-│   ├── Contempt/
-│   ├── Disgust/
-│   ├── Fear/
-│   ├── Happy/
-│   ├── Neutral/
-│   ├── Sad/
-│   └── Surprise/
+│   ├── angry/        ← .png images
+│   ├── disgust/
+│   ├── fear/
+│   ├── happy/
+│   ├── neutral/
+│   ├── sad/
+│   └── surprise/
 └── test/
     └── <same structure>
 ```
@@ -199,7 +198,7 @@ EmotionCNN
 ├── Block 3: Conv2D(256)×2 → BatchNorm → MaxPool → Dropout(0.40)
 └── Head:    Flatten → Dense(512) → BatchNorm → Dropout(0.50)
                      → Dense(256) → Dropout(0.30)
-                     → Dense(8, softmax)
+                     → Dense(7, softmax)
 ```
 
 Input: 48×48×1 (grayscale) · Output: 8-class softmax
@@ -235,7 +234,6 @@ Optimizer: Adam (lr=1e-3) · Loss: Categorical Cross-Entropy
 | Neutral | Passive |
 | Sad / Angry / Disgust | Disengaged |
 | Fear | Anxious |
-| Contempt | Uninterested |
 
 ---
 
